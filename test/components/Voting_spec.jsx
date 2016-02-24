@@ -6,6 +6,8 @@ const {renderIntoDocument, scryRenderedDOMComponentsWithTag, Simulate} = React.a
 
 describe('Voting', () => {
 
+    // We test the component's external behavior, and the fact that it uses smaller components internally is an implementation detail.
+
     it('disables buttons when user has voted', () => {
         const component = renderIntoDocument(
             <Voting pair={["Trainspotting", "28 Days Later"]}
@@ -26,7 +28,19 @@ describe('Voting', () => {
         const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
 
         expect(buttons[0].textContent).to.contain('Voted');
-    })
+    });
+
+    it('renders jsut the winner when there is one', () => {
+        const component = renderIntoDocument(
+            <Voting winner="Trainspotting" />
+        );
+        const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+        expect(buttons.length).to.equal(0);
+
+        const winner = React.findDOMNode(component.refs.winner);
+        expect(winner).to.be.ok;
+        expect(winner.textContent).to.contain('Trainspotting');
+    });
 
     it('renders a pair of buttons', () => {
         const component = renderIntoDocument(
