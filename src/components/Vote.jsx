@@ -9,7 +9,7 @@ export default React.createClass({
     },
     hasVotedFor: function(entry) {
         return this.props.hasVoted === entry;
-    }
+    },
     render: function() {
         return <div className="voting">
             {this.getPair().map(entry =>
